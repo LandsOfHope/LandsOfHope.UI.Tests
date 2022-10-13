@@ -1,7 +1,6 @@
 ﻿using LandsOfHope.UI.Tests.Pages;
-using LandsOfHope.UI.Tests.Tests;
 
-namespace LandsOfHope.UI.Tests
+namespace LandsOfHope.UI.Tests.Tests
 {
     public class SignUpPageTests : PageTest<SignUpPage>
     {
