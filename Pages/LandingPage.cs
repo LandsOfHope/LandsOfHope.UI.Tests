@@ -9,7 +9,7 @@ namespace LandsOfHope.UI.Tests.Pages
         public IWebElement SignUpButton { get; private set; }
 
         public LandingPage(IWebDriver driver)
-            : base(driver)
+            : base(driver, WaitForUniqueElementVisible(By.CssSelector("form[name=\"login\"]")))
         {
             LoginButton = driver.FindElement(By.CssSelector("input[name=\"submit\"]"));
             ForgotPasswordLink = driver.FindElement(By.CssSelector("a[href=\"fhlspw.asp\"]"));

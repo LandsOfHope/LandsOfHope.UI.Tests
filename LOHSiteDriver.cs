@@ -20,20 +20,6 @@ namespace LandsOfHope.UI.Tests
             WebDriver.Navigate().GoToUrl(Url);
         }
 
-        public async Task EnsureNoBrokenImages()
-        {
-            var allImages = WebDriver.FindElements(By.TagName("img"));
-
-            using var httpClient = new HttpClient();
-            foreach (var image in allImages)
-            {
-                var src = image.GetAttribute("src");
-
-                var response = await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get, src));
-                Assert.True(HttpStatusCode.OK == response.StatusCode, $"img src='{src}' returned status code {response.StatusCode}");
-            }
-        }
-
         public void Dispose()
         {
             WebDriver.Quit();

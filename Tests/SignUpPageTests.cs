@@ -4,10 +4,8 @@ namespace LandsOfHope.UI.Tests.Tests
 {
     public class SignUpPageTests : PageTest<SignUpPage>
     {
-        private static SignUpPage SetUp(LandingPage landingPage)
+        private static SignUpPage SetUp(LandingPage landingPage, AccountInfo account)
             => landingPage.ClickSignUp();
-
-        private string UserId = $"test-{Guid.NewGuid()}";
 
         public SignUpPageTests(LOHSiteDriver driver)
             : base(driver, SetUp)
@@ -18,7 +16,7 @@ namespace LandsOfHope.UI.Tests.Tests
         [Fact]
         public void AccountNameIsRequired()
         {
-            Page.Fill(accountName: null, null, UserId, UserId, $"test{Guid.NewGuid()}@test.landsofhope.com", SignUpPage.FoundHow.SearchEngine, true);
+            Page.Fill(accountName: null, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true);
 
             var newPage = Page.ClickSignUp();
             Assert.Equal(Page, newPage);
@@ -27,7 +25,7 @@ namespace LandsOfHope.UI.Tests.Tests
         [Fact]
         public void PasswordIsRequired()
         {
-            Page.Fill(UserId, null, null, UserId, $"{UserId}@test.landsofhope.com", SignUpPage.FoundHow.SearchEngine, true);
+            Page.Fill(AccountInfo.AccountName, null, null, AccountInfo.AccountPassword, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true);
 
             var newPage = Page.ClickSignUp();
             Assert.Equal(Page, newPage);
@@ -36,7 +34,7 @@ namespace LandsOfHope.UI.Tests.Tests
         [Fact]
         public void PasswordConfirmationIsRequired()
         {
-            Page.Fill(UserId, null, UserId, null, $"{UserId}@test.landsofhope.com", SignUpPage.FoundHow.SearchEngine, true);
+            Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, null, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true);
 
             var newPage = Page.ClickSignUp();
             Assert.Equal(Page, newPage);
@@ -45,7 +43,7 @@ namespace LandsOfHope.UI.Tests.Tests
         [Fact]
         public void PasswordAndConfirmationMustMatch()
         {
-            Page.Fill(UserId, null, UserId, "password", $"{UserId}@test.landsofhope.com", SignUpPage.FoundHow.SearchEngine, true);
+            Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, "password", AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true);
 
             var newPage = Page.ClickSignUp();
             Assert.Equal(Page, newPage);
@@ -54,7 +52,7 @@ namespace LandsOfHope.UI.Tests.Tests
         [Fact]
         public void HowFoundIsOptional()
         {
-            Page.Fill(UserId, null, UserId, UserId, $"{UserId}@test.landsofhope.com", null, true);
+            Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, null, true);
 
             var newPage = Page.ClickSignUp();
             Assert.NotEqual(Page, newPage);
@@ -64,7 +62,7 @@ namespace LandsOfHope.UI.Tests.Tests
         [Fact]
         public void ReadTermsIsRequired()
         {
-            Page.Fill(UserId, null, UserId, UserId, $"{UserId}@test.landsofhope.com", SignUpPage.FoundHow.SearchEngine, null);
+            Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, null);
 
             var newPage = Page.ClickSignUp();
             Assert.Equal(Page, newPage);
@@ -90,11 +88,21 @@ namespace LandsOfHope.UI.Tests.Tests
         [MemberData(nameof(AllFoundHow))]
         public void AcceptsAnyFoundHow(SignUpPage.FoundHow foundHow)
         {
-            Page.Fill(UserId, null, UserId, UserId, $"{UserId}@test.landsofhope.com", foundHow, true);
+            Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, foundHow, true);
 
             var newPage = Page.ClickSignUp();
             Assert.NotEqual(Page, newPage);
             Assert.True(newPage.IsT0);
+        }
+
+        [Fact]
+        public void CompleteSignUpPromptsDOB()
+        {
+            var optionsPage =
+                Page.Fill(AccountInfo)
+                .ClickSignUp().AsT0;
+
+            Assert.True(optionsPage.IsDOBPrompt);
         }
     }
 }
