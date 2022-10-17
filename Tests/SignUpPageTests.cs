@@ -16,45 +16,50 @@ namespace LandsOfHope.UI.Tests.Tests
         [Fact]
         public void AccountNameIsRequired()
         {
-            Page.Fill(accountName: null, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true);
+            var newPage =
+                Page.Fill(accountName: null, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true)
+                .ClickSignUp();
 
-            var newPage = Page.ClickSignUp();
             Assert.Equal(Page, newPage);
         }
 
         [Fact]
         public void PasswordIsRequired()
         {
-            Page.Fill(AccountInfo.AccountName, null, null, AccountInfo.AccountPassword, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true);
+            var newPage = 
+                Page.Fill(AccountInfo.AccountName, null, null, AccountInfo.AccountPassword, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true)
+                .ClickSignUp();
 
-            var newPage = Page.ClickSignUp();
             Assert.Equal(Page, newPage);
         }
 
         [Fact]
         public void PasswordConfirmationIsRequired()
         {
-            Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, null, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true);
+            var newPage =
+                Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, null, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true)
+                .ClickSignUp();
 
-            var newPage = Page.ClickSignUp();
             Assert.Equal(Page, newPage);
         }
 
         [Fact]
         public void PasswordAndConfirmationMustMatch()
         {
-            Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, "password", AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true);
+            var newPage =
+                Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, "password", AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, true)
+                .ClickSignUp();
 
-            var newPage = Page.ClickSignUp();
             Assert.Equal(Page, newPage);
         }
 
         [Fact]
         public void HowFoundIsOptional()
         {
-            Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, null, true);
+            var newPage =
+                Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, null, true)
+                .ClickSignUp();
 
-            var newPage = Page.ClickSignUp();
             Assert.NotEqual(Page, newPage);
             Assert.True(newPage.IsT0);
         }
@@ -62,9 +67,10 @@ namespace LandsOfHope.UI.Tests.Tests
         [Fact]
         public void ReadTermsIsRequired()
         {
-            Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, null);
+            var newPage =
+                Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, SignUpPage.FoundHow.SearchEngine, null)
+                .ClickSignUp();
 
-            var newPage = Page.ClickSignUp();
             Assert.Equal(Page, newPage);
         }
 
@@ -88,9 +94,10 @@ namespace LandsOfHope.UI.Tests.Tests
         [MemberData(nameof(AllFoundHow))]
         public void AcceptsAnyFoundHow(SignUpPage.FoundHow foundHow)
         {
-            Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, foundHow, true);
+            var newPage =
+                Page.Fill(AccountInfo.AccountName, null, AccountInfo.AccountPassword, AccountInfo.AccountPassword, AccountInfo.AccountEmail, foundHow, true)
+                .ClickSignUp();
 
-            var newPage = Page.ClickSignUp();
             Assert.NotEqual(Page, newPage);
             Assert.True(newPage.IsT0);
         }

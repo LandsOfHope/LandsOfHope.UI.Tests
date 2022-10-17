@@ -50,8 +50,9 @@ namespace LandsOfHope.UI.Tests.Parts
         {
             WebDriver.SwitchTo().DefaultContent();
             WebDriver.SwitchTo().Frame(PopupFrameElement);
-            
+
             WebDriver.FindElement(By.CssSelector("a[title=\"Close this window\"]")).Click();
+            WebDriver.SwitchTo().DefaultContent();
             return (TParent)typeof(TParent).GetConstructor(new[] { typeof(IWebDriver) })!.Invoke(new[] { WebDriver });
         }
     }

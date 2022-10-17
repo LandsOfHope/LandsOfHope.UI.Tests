@@ -6,7 +6,7 @@ namespace LandsOfHope.UI.Tests.Pages
     {
         public IWebElement InventoryMenuItem { get; private init; }
 
-        public PlayPage(IWebDriver driver) : base(driver, WaitForPageUrlContains("fhlogin.asp"))
+        public PlayPage(IWebDriver driver) : base(driver, WaitForPageUrlContains("fhlogin.asp"), TimeSpan.FromSeconds(5))
         {
             InventoryMenuItem = WebDriver.FindElement(By.Id("mnu50"));
         }

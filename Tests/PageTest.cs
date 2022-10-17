@@ -29,7 +29,7 @@ namespace LandsOfHope.UI.Tests.Tests
         [Fact]
         public async Task HasNoBrokenImages()
         {
-            await Page.EnsureNoBrokenImages();
+            await Page.EnsureNoBrokenImagesAsync();
         }
     }
 }
