@@ -87,6 +87,12 @@ namespace LandsOfHope.UI.Tests.Pages
             return this;
         }
 
+        public ResetPasswordPage ClickResetPassword()
+        {
+            ResetPasswordLink.Click();
+            return new ResetPasswordPage(WebDriver);
+        }
+
         public OneOf<CharacterPage, AccountOptionsPage> ClickSaveChanges()
         {
             SaveChangesButton.Click();

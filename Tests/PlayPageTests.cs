@@ -1,4 +1,5 @@
 ﻿using LandsOfHope.UI.Tests.Pages;
+using OpenQA.Selenium.Interactions;
 
 namespace LandsOfHope.UI.Tests.Tests
 {
@@ -31,6 +32,30 @@ namespace LandsOfHope.UI.Tests.Tests
             : base(driver, SetUp)
         {
 
+        }
+
+        [Fact]
+        public void CannotMoveStatusWindowWhenWindowResizeDisabled()
+        {
+            Assert.NotNull(Page.StatusWindow);
+            var initialPosition = Page.StatusWindow.HeaderTitleElement.Location;
+
+            Page.DragWindow(Page.StatusWindow, 20, 0);
+
+            Assert.Equal(initialPosition, Page.StatusWindow.HeaderTitleElement.Location);
+        }
+
+        [Fact]
+        public void CanMoveStatusWindowWhenWindowResizeEnabled()
+        {
+            Assert.NotNull(Page.StatusWindow);
+            var initialPosition = Page.StatusWindow.HeaderTitleElement.Location;
+
+            Page.ToggleWindowResize();
+            Page.DragWindow(Page.StatusWindow, 20, 0);
+
+            Assert.Equal(initialPosition.X + 20, Page.StatusWindow.HeaderTitleElement.Location.X);
+            Assert.Equal(initialPosition.Y, Page.StatusWindow.HeaderTitleElement.Location.Y);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace LandsOfHope.UI.Tests.Pages
         public IWebElement? DeleteButton { get; private init; }
 
         private AccountManagementMenu AccountManagementMenu { get; init; }
+        private AccountPageHeader Header { get; init; }
 
         public CharacterPage(IWebDriver driver) : base(driver, WaitForPageUrlContains("fhchar.asp"))
         {
@@ -38,6 +39,7 @@ namespace LandsOfHope.UI.Tests.Pages
             }
 
             AccountManagementMenu = new AccountManagementMenu(WebDriver);
+            Header = new AccountPageHeader(WebDriver);
         }
 
         public CharacterPage SetSelectedCharacter(Index index)
@@ -48,7 +50,7 @@ namespace LandsOfHope.UI.Tests.Pages
 
         public CharacterPage SetUsePopupWindow(bool usePopupWindow)
         {
-            if(UseAPopupWindowCheckbox.GetAttribute("checked") != usePopupWindow.ToString())
+            if (UseAPopupWindowCheckbox.GetAttribute("checked") != usePopupWindow.ToString())
                 UseAPopupWindowCheckbox.Click();
 
             return this;
@@ -76,6 +78,12 @@ namespace LandsOfHope.UI.Tests.Pages
         {
             CreateNewCharacterButton.Click();
             return new Popup<CreateCharacterPage, CharacterPage>(WebDriver, this);
+        }
+
+        public LandingPage ClickLogout()
+        {
+            Header.LogoutButtonElement.Click();
+            return new LandingPage(WebDriver);
         }
     }
 }

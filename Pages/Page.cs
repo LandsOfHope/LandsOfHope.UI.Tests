@@ -10,17 +10,25 @@ namespace LandsOfHope.UI.Tests.Pages
 
     public abstract class Page
     {
-        public static readonly TimeSpan DefaultWaitTimeOut = TimeSpan.FromSeconds(1);
+        public static readonly TimeSpan DefaultWaitTimeOut = TimeSpan.FromSeconds(10);
         protected IWebDriver WebDriver { get; private init; }
 
         protected static PageWaitDelegate WaitForPageUrlContains(string pageUrl) => (driver) => driver.Url.Contains(pageUrl) ? new object() : null;
         protected static PageWaitDelegate WaitForUniqueElementVisible(By selector) => (driver) => ExpectedConditions.ElementIsVisible(selector)(driver);
 
+        private static TimeSpan LongerTimeout(TimeSpan? optOne, TimeSpan two)
+        {
+            var one = optOne ?? two;
+            if (one > two)
+                return one;
+            return two;
+        }
+
         protected Page(IWebDriver driver, PageWaitDelegate loadCheck, TimeSpan? loadTimeOut = null)
         {
             WebDriver = driver;
 
-            var wait = new WebDriverWait(driver, loadTimeOut ?? DefaultWaitTimeOut);
+            var wait = new WebDriverWait(driver, LongerTimeout(loadTimeOut, DefaultWaitTimeOut));
             _ = wait.Until(driver => loadCheck(driver));
         }
 
