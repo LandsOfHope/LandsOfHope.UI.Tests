@@ -1,12 +1,11 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Edge;
-using System.Net;
 
 namespace LandsOfHope.UI.Tests
 {
     public class LOHSiteDriver : IDisposable
     {
-        private const string Url = "http://dev.landsofhope.com";
+        private const string Url = "http://localhost:8000";
         public IWebDriver WebDriver { get; private init; }
 
         public LOHSiteDriver()
